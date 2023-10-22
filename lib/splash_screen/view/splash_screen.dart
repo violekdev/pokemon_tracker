@@ -1,10 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pokemon_tracker/app/core/core.dart';
-import 'package:pokemon_tracker/app/cubit/theme_cubit.dart';
 import 'package:pokemon_tracker/app/router/app_router.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -41,7 +38,10 @@ class _SplashScreenState extends State<SplashScreen> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: context.read<ThemeCubit>().state.themeMode == ThemeMode.light ? [AppTheme.lightPrimaryColor, AppTheme.lightAccentColor] : [AppTheme.darkPrimaryColor, AppTheme.darkAccentColor],
+            colors: [
+              Theme.of(context).colorScheme.background,
+              Theme.of(context).colorScheme.onSurface,
+            ],
           ),
         ),
         child: const Center(
