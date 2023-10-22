@@ -11,6 +11,14 @@ class Strings {
   //APIs
   static const pokedexUrl = 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=24';
 
+  static const pokemonNormalUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/';
+
+  // static const pokemon3dNormalUrl = 'https://projectpokemon.org/images/normal-sprite/';
+  // static const pokemon3dShinyUrl = 'https://projectpokemon.org/images/shiny-sprite/';
+
+  static const png = '.png';
+  static const gif = '.gif';
+
   static const pokeTypesIconsUrl = {
     'bug': 'https://archives.bulbagarden.net/media/upload/thumb/9/9c/Bug_icon_SwSh.png/64px-Bug_icon_SwSh.png',
     'dark': 'https://archives.bulbagarden.net/media/upload/thumb/d/d5/Dark_icon_SwSh.png/64px-Dark_icon_SwSh.png',
