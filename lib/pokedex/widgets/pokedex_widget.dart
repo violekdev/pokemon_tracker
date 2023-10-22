@@ -27,11 +27,9 @@ class PokedexWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         return GridTile(
           key: Key(pokedex.pokemonSearchResults[index].name),
-          footer: Center(child: Text(pokedex.pokemonSearchResults[index].name)),
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
-              color: Colors.white,
               boxShadow: const [
                 BoxShadow(
                   color: Colors.grey,
@@ -40,16 +38,18 @@ class PokedexWidget extends StatelessWidget {
                 ),
               ],
             ),
-            child: IconButton(
-              onPressed: () => {
-                BlocProvider.of<PokemonBloc>(context).add(GetPokemonList(url: pokedex.pokemonSearchResults[index].pokemonIndexUrl)),
-                context.goNamed(AppRouter.pokemonDetails),
-              },
-              icon: Hero(
-                tag: pokedex.pokemonSearchResults[index].pokemonModelUrl,
-                child: CachedNetworkImage(
-                  imageUrl: pokedex.pokemonSearchResults[index].pokemonModelUrl,
-                  cacheKey: pokedex.pokemonSearchResults[index].pokemonModelUrl,
+            child: Card(
+              child: IconButton(
+                onPressed: () => {
+                  BlocProvider.of<PokemonBloc>(context).add(GetPokemonList(url: pokedex.pokemonSearchResults[index].pokemonIndexUrl)),
+                  context.goNamed(AppRouter.pokemonDetails),
+                },
+                icon: Hero(
+                  tag: pokedex.pokemonSearchResults[index].pokemonModelUrl,
+                  child: CachedNetworkImage(
+                    imageUrl: pokedex.pokemonSearchResults[index].pokemonModelUrl,
+                    cacheKey: pokedex.pokemonSearchResults[index].pokemonModelUrl,
+                  ),
                 ),
               ),
             ),
