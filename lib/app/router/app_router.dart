@@ -24,6 +24,11 @@ class AppRouter {
             builder: (BuildContext context, GoRouterState state) {
               return const PokedexScreen(key: Key(Keys.pokedexScreen));
             },
+            pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
+              context: context,
+              state: state,
+              child: const PokedexScreen(key: Key(Keys.pokedexScreen)),
+            ),
             routes: [
               GoRoute(
                 name: pokemonDetails,
@@ -31,6 +36,11 @@ class AppRouter {
                 builder: (BuildContext context, GoRouterState state) {
                   return const PokemonDetailsScreen(key: Key(Keys.pokemonDetailsScreen));
                 },
+                pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
+                  context: context,
+                  state: state,
+                  child: const PokemonDetailsScreen(key: Key(Keys.pokemonDetailsScreen)),
+                ),
               ),
             ],
           ),
@@ -44,4 +54,16 @@ class AppRouter {
         ],
         errorBuilder: (context, state) => Container(),
       );
+}
+
+CustomTransitionPage<T> buildPageWithDefaultTransition<T>({
+  required BuildContext context,
+  required GoRouterState state,
+  required Widget child,
+}) {
+  return CustomTransitionPage<T>(
+    key: state.pageKey,
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation, child: child),
+  );
 }
