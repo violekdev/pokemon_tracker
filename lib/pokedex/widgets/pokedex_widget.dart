@@ -45,9 +45,12 @@ class PokedexWidget extends StatelessWidget {
                 BlocProvider.of<PokemonBloc>(context).add(GetPokemonList(url: pokedex.pokemonSearchResults[index].pokemonIndexUrl)),
                 context.goNamed(AppRouter.pokemonDetails),
               },
-              icon: CachedNetworkImage(
-                imageUrl: pokedex.pokemonSearchResults[index].pokemonModelUrl,
-                cacheKey: pokedex.pokemonSearchResults[index].pokemonModelUrl,
+              icon: Hero(
+                tag: pokedex.pokemonSearchResults[index].pokemonModelUrl,
+                child: CachedNetworkImage(
+                  imageUrl: pokedex.pokemonSearchResults[index].pokemonModelUrl,
+                  cacheKey: pokedex.pokemonSearchResults[index].pokemonModelUrl,
+                ),
               ),
             ),
           ),
