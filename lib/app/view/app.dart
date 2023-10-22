@@ -16,7 +16,7 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ThemeCubit>(create: (context) => ThemeCubit()),
-        BlocProvider<PokedexBloc>(create: (context) => PokedexBloc()),
+        BlocProvider<PokedexBloc>(create: (context) => PokedexBloc()..add(GetPokedex())),
         BlocProvider<PokemonBloc>(create: (context) => PokemonBloc()),
       ],
       child: const PokeStatApp(
