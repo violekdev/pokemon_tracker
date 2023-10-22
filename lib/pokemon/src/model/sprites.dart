@@ -18,13 +18,13 @@ class Sprites extends Equatable {
   });
   factory Sprites.fromMap(Map<String, dynamic> map) {
     return Sprites(
-      backDefault: map['back_default'] != null ? map['back_default'] as String  : null,
+      backDefault: map['back_default'] != null ? map['back_default'] as String : null,
       backFemale: map['back_female'] != null ? map['back_female'] as String : null,
-      backShiny: map['back_shiny']!= null ? map['back_shiny'] as String : null,
-      backShinyFemale: map['back_shiny_female']!= null ? map['back_shiny_female'] as String : null,
-      frontDefault: map['front_default']!= null ? map['front_default'] as String : null,
-      frontFemale: map['front_female']!= null ? map['front_female'] as String : null,
-      frontShiny: map['front_shiny']!= null ? map['front_shiny'] as String : null,
+      backShiny: map['back_shiny'] != null ? map['back_shiny'] as String : null,
+      backShinyFemale: map['back_shiny_female'] != null ? map['back_shiny_female'] as String : null,
+      frontDefault: map['front_default'] != null ? map['front_default'] as String : null,
+      frontFemale: map['front_female'] != null ? map['front_female'] as String : null,
+      frontShiny: map['front_shiny'] != null ? map['front_shiny'] as String : null,
       frontShinyFemale: map['front_shiny_female'] != null ? map['front_shiny_female'] as String : null,
       other: OtherSprites.fromMap(map['other'] as Map<String, dynamic>),
     );
