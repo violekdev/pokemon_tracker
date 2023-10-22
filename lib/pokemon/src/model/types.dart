@@ -13,16 +13,16 @@ class Types extends Equatable {
 
   factory Types.fromMap(Map<String, dynamic> map) {
     return Types(
-      type: Strings.pokeTypesIconsUrl[(map['type'] as Map<String, dynamic>)['name'] as String]!,
+      type: Type.fromMap(map['type'] as Map<String, dynamic>),
     );
   }
 
   factory Types.fromJson(String source) => Types.fromMap(json.decode(source) as Map<String, dynamic>);
   // int? slot;
-  final String type;
+  final Type type;
 
   Types copyWith({
-    ValueGetter<String>? type,
+    ValueGetter<Type>? type,
   }) {
     return Types(
       type: type != null ? type() : this.type,
@@ -44,45 +44,45 @@ class Types extends Equatable {
   List<Object?> get props => [type];
 }
 
-// class Type extends Equatable {
-//   const Type({
-//     required this.name,
-//     required this.url,
-//   });
+class Type extends Equatable {
+  const Type({
+    required this.name,
+    required this.url,
+  });
 
-//   factory Type.fromMap(Map<String, dynamic> map) {
-//     return Type(
-//       name: map['name'] as String,
-//       url: map['url'] as String,
-//     );
-//   }
+  factory Type.fromMap(Map<String, dynamic> map) {
+    return Type(
+      name: map['name'] as String,
+      url: Strings.pokeTypesIconsUrl[map['name'] as String]!,
+    );
+  }
 
-//   factory Type.fromJson(String source) => Type.fromMap(json.decode(source) as Map<String, dynamic>);
-//   final String name;
-//   final String url;
+  factory Type.fromJson(String source) => Type.fromMap(json.decode(source) as Map<String, dynamic>);
+  final String name;
+  final String url;
 
-//   Type copyWith({
-//     String? name,
-//     String? url,
-//   }) {
-//     return Type(
-//       name: name ?? this.name,
-//       url: url ?? this.url,
-//     );
-//   }
+  Type copyWith({
+    String? name,
+    String? url,
+  }) {
+    return Type(
+      name: name ?? this.name,
+      url: url ?? this.url,
+    );
+  }
 
-//   Map<String, dynamic> toMap() {
-//     return {
-//       'name': name,
-//       'url': url,
-//     };
-//   }
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'url': url,
+    };
+  }
 
-//   String toJson() => json.encode(toMap());
+  String toJson() => json.encode(toMap());
 
-//   @override
-//   String toString() => 'Type(name: $name, url: $url)';
+  @override
+  String toString() => 'Type(name: $name, url: $url)';
 
-//   @override
-//   List<Object> get props => [name, url];
-// }
+  @override
+  List<Object> get props => [name, url];
+}
