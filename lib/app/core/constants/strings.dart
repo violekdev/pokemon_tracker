@@ -11,7 +11,8 @@ class Strings {
   //APIs
   static const pokedexUrl = 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=24';
 
-  static const pokemonNormalUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/';
+  static const pokemonNormalUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/';
+  // static const pokemonNormalUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/';
 
   // static const pokemon3dNormalUrl = 'https://projectpokemon.org/images/normal-sprite/';
   // static const pokemon3dShinyUrl = 'https://projectpokemon.org/images/shiny-sprite/';
