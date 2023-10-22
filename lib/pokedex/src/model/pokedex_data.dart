@@ -16,7 +16,7 @@ class PokemonSearchResults extends Equatable {
     return PokemonSearchResults(
       name: map['name'] as String,
       pokemonIndexUrl: map['url'] as String,
-      pokemonModelUrl: Strings.pokemonNormalUrl + (map['url'] as String).split('/').elementAt(6) + Strings.png,
+      pokemonModelUrl: PokemonAssetsUrl.pokemonSpriteOtherHome + (map['url'] as String).split('/').elementAt(6) + FileExtensions.png,
       // pokemon3dModelUrl: Strings.pokemon3dNormalUrl + (map['name'] as String) + Strings.gif,
     );
   }

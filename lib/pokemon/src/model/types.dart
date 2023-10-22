@@ -53,7 +53,7 @@ class Type extends Equatable {
   factory Type.fromMap(Map<String, dynamic> map) {
     return Type(
       name: map['name'] as String,
-      url: Strings.pokeTypesIconsUrl[map['name'] as String]!,
+      url: PokemonAssetsUrl.pokeTypesIcons[map['name'] as String]!,
     );
   }
 
