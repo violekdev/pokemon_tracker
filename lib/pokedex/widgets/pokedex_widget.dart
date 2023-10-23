@@ -41,7 +41,7 @@ class PokedexWidget extends StatelessWidget {
             child: Card(
               child: IconButton(
                 onPressed: () => {
-                  BlocProvider.of<PokemonBloc>(context).add(GetPokemonList(url: pokedex.pokemonSearchResults[index].pokemonIndexUrl)),
+                  BlocProvider.of<PokemonBloc>(context).add(GetPokemonList(url: pokedex.pokemonSearchResults[index].pokemonIndexUrl, pokemonImageUrl: pokedex.pokemonSearchResults[index].pokemonModelUrl)),
                   context.goNamed(AppRouter.pokemonDetails),
                 },
                 icon: Hero(

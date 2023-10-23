@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:pokemon_tracker/pokemon/bloc/pokemon_bloc.dart';
+import 'package:pokemon_tracker/pokemon/widgets/pokemon_asset_view.dart';
 import 'package:pokemon_tracker/pokemon/widgets/pokemon_data_widget.dart';
 
 class PokemonDetailsScreen extends StatelessWidget {
@@ -19,7 +20,12 @@ class PokemonDetailsScreen extends StatelessWidget {
         },
         builder: (context, state) {
           if (state is PokemonInitial || state is PokemonLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return Column(
+              children: [
+                PokemonAssetView(frontImage: state.pokemonImageUrl),
+                const Center(child: CircularProgressIndicator()),
+              ],
+            );
             // } else if (state is PokemonLoading) {
             //   return _buildLoading();
           } else if (state is PokemonLoaded) {
@@ -27,7 +33,13 @@ class PokemonDetailsScreen extends StatelessWidget {
             // } else if (state is PokemonError) {
             //   return Container();
           } else if (state is PokemonError) {
-            return Text(state.message);
+            return Column(
+              children: [
+                PokemonAssetView(frontImage: state.pokemonImageUrl),
+                // TODO(krishna): change widget SelectableText -> Text
+                Center(child: SelectableText(state.message)),
+              ],
+            );
             // } else if (state is PokemonError) {
             //   return Container();
           } else {

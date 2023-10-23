@@ -8,9 +8,8 @@ abstract class PokemonEvent extends Equatable {
 }
 
 class GetPokemonList extends PokemonEvent {
-  const GetPokemonList({
-    required this.url,
-  });
+  const GetPokemonList({required this.url, required this.pokemonImageUrl});
 
   final String url;
+  final String pokemonImageUrl;
 }
