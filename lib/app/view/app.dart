@@ -34,10 +34,14 @@ class PokeStatApp extends StatefulWidget {
 }
 
 class _PokeStatAppState extends State<PokeStatApp> with WidgetsBindingObserver {
+  final List<AppLifecycleState> _stateHistoryList = <AppLifecycleState>[];
+
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
-    // BlocProvider.of<PokedexBloc>(context).add(GetPokedex());
+    if (WidgetsBinding.instance.lifecycleState != null) {
+      _stateHistoryList.add(WidgetsBinding.instance.lifecycleState!);
+    }
     super.initState();
   }
 
@@ -45,6 +49,13 @@ class _PokeStatAppState extends State<PokeStatApp> with WidgetsBindingObserver {
   void didChangePlatformBrightness() {
     context.read<ThemeCubit>().updateAppTheme();
     super.didChangePlatformBrightness();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    setState(() {
+      _stateHistoryList.add(state);
+    });
   }
 
   @override
