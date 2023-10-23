@@ -17,7 +17,7 @@ class PokemonData extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          PokemonAssetView(pokemon: pokemon),
+          PokemonAssetView(backImage: pokemon.types!.first.type.url, frontImage: pokemon.sprites!.other.homeSprites!.frontDefault!),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.05),
             child: Column(
@@ -35,7 +35,6 @@ class PokemonData extends StatelessWidget {
                     return TypeContainer(type: type);
                   }).toList(),
                 ),
-                
               ],
             ),
           ),
@@ -72,35 +71,41 @@ class TypeContainer extends StatelessWidget {
 
 class PokemonAssetView extends StatelessWidget {
   const PokemonAssetView({
-    required this.pokemon,
+    required this.frontImage,
+    this.backImage,
     super.key,
   });
 
-  final Pokemon pokemon;
+  final String? backImage;
+  final String frontImage;
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    return Hero(
-      tag: pokemon.sprites!.other.homeSprites!.frontDefault!,
-      child: CachedNetworkImage(
-        imageUrl: pokemon.sprites!.other.homeSprites!.frontDefault!,
-        cacheKey: pokemon.sprites!.other.homeSprites!.frontDefault,
-        imageBuilder: (context, imageProvider) => Stack(
-          alignment: Alignment.center,
-          children: [
+    return Center(
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          if (backImage != null)
             CachedNetworkImage(
-              imageUrl: pokemon.types!.first.type.url,
-              cacheKey: pokemon.types!.first.type.url,
+              imageUrl: backImage!,
+              cacheKey: backImage,
               height: screenSize.height * 0.4,
               fit: BoxFit.cover,
             ),
-            Container(
+          Hero(
+            tag: frontImage,
+            child: CachedNetworkImage(
+              imageUrl: frontImage,
+              cacheKey: frontImage,
               height: screenSize.height * 0.4,
-              decoration: BoxDecoration(image: DecorationImage(image: imageProvider)),
+              // imageBuilder: (context, imageProvider) => Image(image: imageProvider),
+              // Container(
+              //   decoration: BoxDecoration(image: ),
+              // ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
