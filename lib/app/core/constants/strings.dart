@@ -1,6 +1,6 @@
 class Strings {
   //Text
-  static const homeScreenCenterText = 'Pokemon';
+  static const homeScreenCenterText = 'Pokémon';
 
   //APIs
   static const pokedexUrl = 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=24';
@@ -20,6 +20,8 @@ class PokemonAssetsUrl {
 
   static const pokemon3dNormal = 'https://projectpokemon.org/images/normal-sprite/';
   static const pokemon3dShiny = 'https://projectpokemon.org/images/shiny-sprite/';
+
+  static const pokemonItemBag = 'https://archives.bulbagarden.net/media/upload/b/b6/GO_Bag_Upgrade.png';
 
   static const pokeTypesIcons = {
     'bug': 'https://archives.bulbagarden.net/media/upload/thumb/9/9c/Bug_icon_SwSh.png/64px-Bug_icon_SwSh.png',

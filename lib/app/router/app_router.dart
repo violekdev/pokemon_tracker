@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokemon_tracker/app/core/core.dart';
+import 'package:pokemon_tracker/home/view/home.dart';
 import 'package:pokemon_tracker/pokedex/view/pokedex.dart';
 import 'package:pokemon_tracker/pokemon/view/pokemon.dart';
 
@@ -10,24 +11,36 @@ class AppRouter {
   final GoRouter goRouter; // This instance will be store route state
 
   static const String home = '/';
-  static const String pokedex = '/pokedex';
+  static const String pokedex = 'pokedex';
   static const String pokemonDetails = 'pokemonDetails';
 
   static GoRouter get _router => GoRouter(
-        initialLocation: pokedex,
+        initialLocation: home,
         routes: [
           GoRoute(
-            name: pokedex,
-            path: pokedex,
+            name: home,
+            path: home,
             builder: (BuildContext context, GoRouterState state) {
-              return const PokedexScreen(key: Key(Keys.pokedexScreen));
+              return const HomeScreen(key: Key(Keys.homeScreen));
             },
             pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
               context: context,
               state: state,
-              child: const PokedexScreen(key: Key(Keys.pokedexScreen)),
+              child: const HomeScreen(key: Key(Keys.homeScreen)),
             ),
             routes: [
+              GoRoute(
+                name: pokedex,
+                path: pokedex,
+                builder: (BuildContext context, GoRouterState state) {
+                  return const PokedexScreen(key: Key(Keys.pokedexScreen));
+                },
+                pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
+                  context: context,
+                  state: state,
+                  child: const PokedexScreen(key: Key(Keys.pokedexScreen)),
+                ),
+              ),
               GoRoute(
                 name: pokemonDetails,
                 path: pokemonDetails,
