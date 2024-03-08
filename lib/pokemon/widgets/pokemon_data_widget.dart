@@ -27,8 +27,8 @@ class PokemonData extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(pokemon.name!, style: Theme.of(context).textTheme.headlineLarge),
-                    Text(pokemon.id.toString(), style: Theme.of(context).textTheme.headlineLarge),
+                    Text(pokemon.name![0].toUpperCase() + pokemon.name!.substring(1), style: Theme.of(context).textTheme.headlineLarge),
+                    Text('#${pokemon.id}', style: Theme.of(context).textTheme.headlineLarge),
                   ],
                 ),
                 Row(
