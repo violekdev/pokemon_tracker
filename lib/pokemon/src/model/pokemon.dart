@@ -43,7 +43,7 @@ class Pokemon extends Equatable {
       pastTypes: List<dynamic>.from(map['past_types'] as List),
       species: Map<String, dynamic>.from(map['species'] as Map<String, dynamic>),
       sprites: map['sprites'] != null ? Sprites.fromMap(map['sprites'] as Map<String, dynamic>) : null,
-      // stats: List<dynamic>.from(map['stats'] as List),
+      stats: map['stats'] != null ? List<Stats>.from((map['stats'] as List).map((x) => Stats.fromMap(x as Map<String, dynamic>))) : null,
       types: map['types'] != null ? List<Types>.from((map['types'] as List).map((x) => Types.fromMap(x as Map<String, dynamic>))) : null,
       weight: map['weight'] as int,
     );
@@ -67,7 +67,7 @@ class Pokemon extends Equatable {
   final Map<String, dynamic>? species;
   // final Map<String, dynamic>? sprites;
   final Sprites? sprites;
-  final List<dynamic>? stats;
+  final List<Stats>? stats;
   final List<Types>? types;
   final int? weight;
 
@@ -87,7 +87,7 @@ class Pokemon extends Equatable {
     ValueGetter<List<dynamic>?>? pastTypes,
     ValueGetter<Map<String, dynamic>?>? species,
     ValueGetter<Sprites?>? sprites,
-    ValueGetter<List<dynamic>?>? stats,
+    ValueGetter<List<Stats>?>? stats,
     ValueGetter<List<Types>?>? types,
     ValueGetter<int?>? weight,
   }) {
