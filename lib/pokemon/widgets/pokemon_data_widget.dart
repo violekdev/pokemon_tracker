@@ -13,35 +13,47 @@ class PokemonData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          PokemonAssetView(backImage: pokemon.types!.first.type.url, frontImage: pokemon.sprites!.other.homeSprites!.frontDefault!),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.05),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    // final screenSize = MediaQuery.of(context).size;
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Stack(
+              alignment: Alignment.topCenter,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(pokemon.name![0].toUpperCase() + pokemon.name!.substring(1), style: Theme.of(context).textTheme.headlineLarge),
-                    Text('#${pokemon.id}', style: Theme.of(context).textTheme.headlineLarge),
-                  ],
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  height: 100,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(pokemon.name![0].toUpperCase() + pokemon.name!.substring(1), style: Theme.of(context).textTheme.headlineLarge),
+                          Text('#${pokemon.id}', style: Theme.of(context).textTheme.headlineLarge),
+                          // Text('#${colorSchemeFromImage.background}', style: Theme.of(context).textTheme.headlineLarge),
+                        ],
+                      ),
+                      Row(
+                        children: pokemon.types!.map((type) {
+                          return TypeContainer(type: type);
+                        }).toList(),
+                      ),
+                    ],
+                  ),
                 ),
-                Row(
-                  children: pokemon.types!.map((type) {
-                    return TypeContainer(type: type);
-                  }).toList(),
+                PokemonAssetView(
+                  backImage: pokemon.types!.first.type.url,
+                  frontImage: pokemon.sprites!.other.homeSprites!.frontDefault!,
                 ),
               ],
             ),
-          ),
-          //   ],
-          // )
-        ],
+          ],
+        ),
       ),
     );
   }
