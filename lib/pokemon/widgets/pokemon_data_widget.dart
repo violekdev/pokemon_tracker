@@ -52,6 +52,7 @@ class PokemonData extends StatelessWidget {
                 ),
               ],
             ),
+            StatIndicator(stats: pokemon.stats!),
           ],
         ),
       ),
@@ -77,6 +78,46 @@ class TypeContainer extends StatelessWidget {
         imageUrl: type.type.url,
         cacheKey: type.type.url,
         height: screenSize.height * 0.05,
+      ),
+    );
+  }
+}
+
+class StatIndicator extends StatelessWidget {
+  const StatIndicator({
+    required this.stats,
+    super.key,
+  });
+
+  final List<Stats> stats;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+      width: double.infinity,
+      child: Table(defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+        columnWidths: const {
+          0: FlexColumnWidth(4),
+          1: FlexColumnWidth(),
+          2: FlexColumnWidth(7),
+        },
+        children: [
+          ...stats.map((stat) {
+            return TableRow(
+              children: [
+                TableCell(child: Text(stat.stat.name!.toUpperCase())),
+                TableCell(child: Text(stat.baseStat.toString().trim())),
+                TableCell(
+                  child: LinearProgressIndicator(
+                    value: stat.baseStat! / 100,
+                    semanticsLabel: '${stat.stat.name!.toUpperCase()} indicator',
+                  ),
+                ),
+              ],
+            );
+          }),
+        ],
       ),
     );
   }
