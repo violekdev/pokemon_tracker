@@ -19,7 +19,7 @@ class PokedexWidget extends StatelessWidget {
     return GridView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
+        crossAxisCount: 6,
         crossAxisSpacing: 8,
         mainAxisSpacing: 8,
       ),
@@ -27,19 +27,26 @@ class PokedexWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         return GridTile(
           key: Key(pokedex.pokemonSearchResults[index].name),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.grey,
-                  offset: Offset(0, 1), //(x,y)
-                  blurRadius: 6,
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  width: 30,
+                  height: 10,
+                  margin: const EdgeInsets.only(bottom: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.grey,
+                        blurRadius: 6,
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-            child: Card(
-              child: IconButton(
+              ),
+              IconButton(
                 onPressed: () => {
                   BlocProvider.of<PokemonBloc>(context).add(
                     GetPokemonList(
@@ -57,7 +64,7 @@ class PokedexWidget extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
+            ],
           ),
         );
       },
