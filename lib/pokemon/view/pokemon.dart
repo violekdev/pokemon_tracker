@@ -70,10 +70,14 @@ class PokemonDetailsScreen extends StatelessWidget {
                   ),
                   if (state is PokemonInitial || state is PokemonLoading)
                     const Center(child: CircularProgressIndicator())
-                  else if (state is PokemonLoaded)
-                    StatIndicator(
-                      stats: state.pokemon.stats!,
+                  else if (state is PokemonLoaded) ...[
+                    StatIndicator(stats: state.pokemon.stats!),
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                      child: Text(state.pokemon.description!),
                     ),
+                  ],
                 ],
               ),
             ),
