@@ -55,7 +55,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 child: Text(
                   'Pokémon',
-                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
                 ),
               ),
             ),
@@ -138,7 +138,7 @@ class CategoryTileWidget extends StatelessWidget {
           children: [
             Text(
               title,
-              style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
             ),
           ],
         ),
