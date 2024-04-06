@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:pokemon_tracker/app/core/core.dart';
 import 'package:pokemon_tracker/pokemon/src/model.dart';
 
@@ -26,17 +28,32 @@ class PokemonAPI {
     try {
       final response = await _dio.get<dynamic>(url);
 
-      final apiKey = dotenv.env['GENERATIVE_AI_KEY'];
-      final model = GenerativeModel(model: 'gemini-pro', apiKey: apiKey!);
+      final directory = await getApplicationDocumentsDirectory();
+      Hive.init(directory.path);
+      await Hive.openBox<String>('pokemonDescription');
 
-      final prompt = 'Write a description in single paragraph without heading for pokemon $name';
-      final content = [Content.text(prompt)];
-      final generativeResponse = await model.generateContent(content);
+      final box = Hive.box<String>('pokemonDescription');
 
-      // print(response.text);
-      // print(generativeResponse);
-      print(generativeResponse.text);
-      return Pokemon.fromMap(response.data as Map<String, dynamic>, generativeResponse.text!);
+      String pokemonDescripiton = '';
+
+      print(box.containsKey(name));
+
+      if (!box.containsKey(name)) {
+        final apiKey = dotenv.env['GENERATIVE_AI_KEY'];
+        final model = GenerativeModel(model: 'gemini-pro', apiKey: apiKey!);
+
+        final prompt = 'Write a description in single paragraph without heading for pokemon $name';
+        final content = [Content.text(prompt)];
+        final generativeResponse = await model.generateContent(content);
+        
+        pokemonDescripiton = generativeResponse.text!;
+
+        await box.put(name, pokemonDescripiton);
+      } else {
+        pokemonDescripiton = box.get(name)!;
+      }
+
+      return Pokemon.fromMap(response.data as Map<String, dynamic>, pokemonDescripiton);
     } catch (error) {
       // TODO(krishna): Update Error Message
       throw CustomException(message: error.toString());
