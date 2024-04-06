@@ -48,8 +48,8 @@ class PokemonDetailsScreen extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(state is! PokemonLoaded ? '' : state.pokemon.name![0].toUpperCase() + state.pokemon.name!.substring(1), style: Theme.of(context).textTheme.headlineLarge),
-                                Text(state is! PokemonLoaded ? '' : '#${state.pokemon.id}', style: Theme.of(context).textTheme.headlineLarge),
+                                Text(state.name[0].toUpperCase() + state.name.substring(1), style: Theme.of(context).textTheme.headlineLarge),
+                                Text('#${state.id}', style: Theme.of(context).textTheme.headlineLarge),
                                 // Text('#${colorSchemeFromImage.background}', style: Theme.of(context).textTheme.headlineLarge),
                               ],
                             ),

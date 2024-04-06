@@ -51,6 +51,8 @@ class PokedexWidget extends StatelessWidget {
                   BlocProvider.of<PokemonBloc>(context).add(
                     GetPokemonList(
                       url: pokedex.pokemonSearchResults[index].pokemonIndexUrl,
+                      name: pokedex.pokemonSearchResults[index].name,
+                      id: index + 1,
                       pokemonImageUrl: pokedex.pokemonSearchResults[index].pokemonModelUrl,
                     ),
                   ),
