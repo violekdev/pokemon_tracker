@@ -16,7 +16,7 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ThemeCubit>(create: (context) => ThemeCubit()),
-        BlocProvider<PokedexBloc>(create: (context) => PokedexBloc()),
+        BlocProvider<PokedexBloc>(create: (context) => PokedexBloc()..add(GetPokedex())),
         BlocProvider<PokemonBloc>(create: (context) => PokemonBloc()),
       ],
       child: const PokeStatApp(
@@ -34,10 +34,14 @@ class PokeStatApp extends StatefulWidget {
 }
 
 class _PokeStatAppState extends State<PokeStatApp> with WidgetsBindingObserver {
+  final List<AppLifecycleState> _stateHistoryList = <AppLifecycleState>[];
+
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
-    // BlocProvider.of<PokedexBloc>(context).add(GetPokedex());
+    if (WidgetsBinding.instance.lifecycleState != null) {
+      _stateHistoryList.add(WidgetsBinding.instance.lifecycleState!);
+    }
     super.initState();
   }
 
@@ -45,6 +49,13 @@ class _PokeStatAppState extends State<PokeStatApp> with WidgetsBindingObserver {
   void didChangePlatformBrightness() {
     context.read<ThemeCubit>().updateAppTheme();
     super.didChangePlatformBrightness();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    setState(() {
+      _stateHistoryList.add(state);
+    });
   }
 
   @override
@@ -56,7 +67,7 @@ class _PokeStatAppState extends State<PokeStatApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: Strings.appTitle,
+      title: TitleStrings.appTitle,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: context.select((ThemeCubit themeCubit) => themeCubit.state.themeMode),

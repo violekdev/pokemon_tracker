@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
+import 'package:pokemon_tracker/pokemon/src/model/sprites/other.dart';
 
 class Sprites extends Equatable {
   const Sprites({
+    required this.other,
     this.backDefault,
     this.backFemale,
     this.backShiny,
@@ -16,14 +18,15 @@ class Sprites extends Equatable {
   });
   factory Sprites.fromMap(Map<String, dynamic> map) {
     return Sprites(
-      backDefault: map['back_default'] != null ? map['back_default'] as String  : null,
+      backDefault: map['back_default'] != null ? map['back_default'] as String : null,
       backFemale: map['back_female'] != null ? map['back_female'] as String : null,
-      backShiny: map['back_shiny']!= null ? map['back_shiny'] as String : null,
-      backShinyFemale: map['back_shiny_female']!= null ? map['back_shiny_female'] as String : null,
-      frontDefault: map['front_default']!= null ? map['front_default'] as String : null,
-      frontFemale: map['front_female']!= null ? map['front_female'] as String : null,
-      frontShiny: map['front_shiny']!= null ? map['front_shiny'] as String : null,
+      backShiny: map['back_shiny'] != null ? map['back_shiny'] as String : null,
+      backShinyFemale: map['back_shiny_female'] != null ? map['back_shiny_female'] as String : null,
+      frontDefault: map['front_default'] != null ? map['front_default'] as String : null,
+      frontFemale: map['front_female'] != null ? map['front_female'] as String : null,
+      frontShiny: map['front_shiny'] != null ? map['front_shiny'] as String : null,
       frontShinyFemale: map['front_shiny_female'] != null ? map['front_shiny_female'] as String : null,
+      other: OtherSprites.fromMap(map['other'] as Map<String, dynamic>),
     );
   }
 
@@ -36,6 +39,7 @@ class Sprites extends Equatable {
   final String? frontFemale;
   final String? frontShiny;
   final String? frontShinyFemale;
+  final OtherSprites other;
 
   Sprites copyWith({
     ValueGetter<String?>? backDefault,
@@ -46,6 +50,7 @@ class Sprites extends Equatable {
     ValueGetter<String?>? frontFemale,
     ValueGetter<String?>? frontShiny,
     ValueGetter<String?>? frontShinyFemale,
+    ValueGetter<OtherSprites>? other,
   }) {
     return Sprites(
       backDefault: backDefault != null ? backDefault() : this.backDefault,
@@ -56,6 +61,7 @@ class Sprites extends Equatable {
       frontFemale: frontFemale != null ? frontFemale() : this.frontFemale,
       frontShiny: frontShiny != null ? frontShiny() : this.frontShiny,
       frontShinyFemale: frontShinyFemale != null ? frontShinyFemale() : this.frontShinyFemale,
+      other: other != null ? other() : this.other,
     );
   }
 
@@ -69,6 +75,7 @@ class Sprites extends Equatable {
       'frontFemale': frontFemale,
       'frontShiny': frontShiny,
       'frontShinyFemale': frontShinyFemale,
+      'other': other,
     };
   }
 
@@ -76,7 +83,7 @@ class Sprites extends Equatable {
 
   @override
   String toString() {
-    return 'Sprites(backDefault: $backDefault, backFemale: $backFemale, backShiny: $backShiny, backShinyFemale: $backShinyFemale, frontDefault: $frontDefault, frontFemale: $frontFemale, frontShiny: $frontShiny, frontShinyFemale: $frontShinyFemale)';
+    return 'Sprites(backDefault: $backDefault, backFemale: $backFemale, backShiny: $backShiny, backShinyFemale: $backShinyFemale, frontDefault: $frontDefault, frontFemale: $frontFemale, frontShiny: $frontShiny, frontShinyFemale: $frontShinyFemale, other: $other)';
   }
 
   @override
@@ -90,6 +97,7 @@ class Sprites extends Equatable {
       frontFemale,
       frontShiny,
       frontShinyFemale,
+      other,
     ];
   }
 }

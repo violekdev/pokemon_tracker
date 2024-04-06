@@ -1,17 +1,29 @@
 class Strings {
+  //Text
+  static const homeScreenCenterText = 'Pokémon';
+
+  //APIs
+  static const pokedexUrl = 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=24';
+}
+
+class TitleStrings {
   // ScreenTitle
   static const appTitle = 'Poke Stats';
   static const homeScreenTitle = 'Stats Tracker';
   static const pokemonDetailsScreenTitle = '';
   static const pokedexScreenTitle = 'Pokedex';
+}
 
-  //Text
-  static const homeScreenCenterText = 'Pokemon';
+class PokemonAssetsUrl {
+  static const pokemonSpriteOtherHome = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/';
+  static const pokemonSprite = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/';
 
-  //APIs
-  static const pokedexUrl = 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=24';
+  static const pokemon3dNormal = 'https://projectpokemon.org/images/normal-sprite/';
+  static const pokemon3dShiny = 'https://projectpokemon.org/images/shiny-sprite/';
 
-  static const pokeTypesIconsUrl = {
+  static const pokemonItemBag = 'https://archives.bulbagarden.net/media/upload/b/b6/GO_Bag_Upgrade.png';
+
+  static const pokeTypesIcons = {
     'bug': 'https://archives.bulbagarden.net/media/upload/thumb/9/9c/Bug_icon_SwSh.png/64px-Bug_icon_SwSh.png',
     'dark': 'https://archives.bulbagarden.net/media/upload/thumb/d/d5/Dark_icon_SwSh.png/64px-Dark_icon_SwSh.png',
     'dragon': 'https://archives.bulbagarden.net/media/upload/thumb/7/70/Dragon_icon_SwSh.png/64px-Dragon_icon_SwSh.png',
@@ -31,6 +43,13 @@ class Strings {
     'steel': 'https://archives.bulbagarden.net/media/upload/thumb/0/09/Steel_icon_SwSh.png/64px-Steel_icon_SwSh.png',
     'water': 'https://archives.bulbagarden.net/media/upload/thumb/8/80/Water_icon_SwSh.png/64px-Water_icon_SwSh.png',
   };
+}
 
+class FileExtensions {
+  static const png = '.png';
+  static const gif = '.gif';
+}
+
+class ErrorStrings {
   static const errorMessage = 'Failed to fetch data. is your device online?';
 }

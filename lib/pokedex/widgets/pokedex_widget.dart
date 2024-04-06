@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -18,7 +19,7 @@ class PokedexWidget extends StatelessWidget {
     return GridView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
+        crossAxisCount: 6,
         crossAxisSpacing: 8,
         mainAxisSpacing: 8,
       ),
@@ -26,45 +27,46 @@ class PokedexWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         return GridTile(
           key: Key(pokedex.pokemonSearchResults[index].name),
-          footer: Center(child: Text(pokedex.pokemonSearchResults[index].name)),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: Colors.white,
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.grey,
-                  offset: Offset(0, 1), //(x,y)
-                  blurRadius: 6,
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  width: 30,
+                  height: 10,
+                  margin: const EdgeInsets.only(bottom: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.grey,
+                        blurRadius: 6,
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-            child: IconButton(
-              onPressed: () => {
-                BlocProvider.of<PokemonBloc>(context).add(GetPokemonList(url: pokedex.pokemonSearchResults[index].pokemonIndexUrl)),
-                context.goNamed(AppRouter.pokemonDetails),
-              },
-              // icon: ModelViewer(
-              //   backgroundColor: Colors.white,
-              //   src: "https://github.com/PoGo-Devs/PoGo-3D-Assets/blob/master/Pokemon-Gen1/001_Bulbasaur/Bulbasaur.fbx",
-              //   // src: "assets/Bulbasaur.c4d",
-              //   alt: "A 3D model of an table soccer",
-              //   autoPlay: true,
-              //   autoRotate: true,
-              //   key: Key(pokedex.pokemonSearchResults![index].name!),
-              // ),
-              // icon: Image.network(
-              //     "https://github.com/PoGo-Devs/PoGo-3D-Assets/blob/master/Pokemon-Gen1/001_Bulbasaur/001_Bulbasaur_Anim.gif"),
-              // icon: CachedNetworkImage(
-              //   imageUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png",
-              //   // progressIndicatorBuilder: (context, url, downloadProgress) =>
-              //   //     CircularProgressIndicator(value: downloadProgress.progress),
-              //   // errorWidget: (context, url, error) => Icon(Icons.error),
-              // ),
-              icon: Image.network('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png'),
-
-              // const Icon(Icons.workspace_premium_outlined),
-            ),
+              ),
+              IconButton(
+                onPressed: () => {
+                  BlocProvider.of<PokemonBloc>(context).add(
+                    GetPokemonList(
+                      url: pokedex.pokemonSearchResults[index].pokemonIndexUrl,
+                      name: pokedex.pokemonSearchResults[index].name,
+                      id: index + 1,
+                      pokemonImageUrl: pokedex.pokemonSearchResults[index].pokemonModelUrl,
+                    ),
+                  ),
+                  context.pushNamed(AppRouter.pokemonDetails),
+                },
+                icon: Hero(
+                  tag: pokedex.pokemonSearchResults[index].pokemonModelUrl,
+                  child: CachedNetworkImage(
+                    imageUrl: pokedex.pokemonSearchResults[index].pokemonModelUrl,
+                    cacheKey: pokedex.pokemonSearchResults[index].pokemonModelUrl,
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       },

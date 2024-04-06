@@ -8,6 +8,7 @@ class Pokemon extends Equatable {
   const Pokemon({
     this.abilities,
     this.baseExperience,
+    this.description,
     this.forms,
     this.gameIndices,
     this.height,
@@ -26,10 +27,11 @@ class Pokemon extends Equatable {
     this.weight,
   });
 
-  factory Pokemon.fromMap(Map<String, dynamic> map) {
+  factory Pokemon.fromMap(Map<String, dynamic> map, String description) {
     return Pokemon(
       abilities: List<dynamic>.from(map['abilities'] as List),
       baseExperience: map['base_experience'] as int,
+      description: description,
       forms: List<dynamic>.from(map['forms'] as List),
       gameIndices: List<dynamic>.from(map['game_indices'] as List),
       height: map['height'] as int,
@@ -43,16 +45,17 @@ class Pokemon extends Equatable {
       pastTypes: List<dynamic>.from(map['past_types'] as List),
       species: Map<String, dynamic>.from(map['species'] as Map<String, dynamic>),
       sprites: map['sprites'] != null ? Sprites.fromMap(map['sprites'] as Map<String, dynamic>) : null,
-      // stats: List<dynamic>.from(map['stats'] as List),
+      stats: map['stats'] != null ? List<Stats>.from((map['stats'] as List).map((x) => Stats.fromMap(x as Map<String, dynamic>))) : null,
       types: map['types'] != null ? List<Types>.from((map['types'] as List).map((x) => Types.fromMap(x as Map<String, dynamic>))) : null,
       weight: map['weight'] as int,
     );
   }
 
-  factory Pokemon.fromJson(String source) => Pokemon.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Pokemon.fromJson(String source, String description) => Pokemon.fromMap(json.decode(source) as Map<String, dynamic>, description);
 
   final List<dynamic>? abilities;
   final int? baseExperience;
+  final String? description;
   final List<dynamic>? forms;
   final List<dynamic>? gameIndices;
   final int? height;
@@ -67,13 +70,14 @@ class Pokemon extends Equatable {
   final Map<String, dynamic>? species;
   // final Map<String, dynamic>? sprites;
   final Sprites? sprites;
-  final List<dynamic>? stats;
+  final List<Stats>? stats;
   final List<Types>? types;
   final int? weight;
 
   Pokemon copyWith({
     ValueGetter<List<dynamic>?>? abilities,
     ValueGetter<int?>? baseExperience,
+    ValueGetter<String?>? description,
     ValueGetter<List<dynamic>?>? forms,
     ValueGetter<List<dynamic>?>? gameIndices,
     ValueGetter<int?>? height,
@@ -87,13 +91,14 @@ class Pokemon extends Equatable {
     ValueGetter<List<dynamic>?>? pastTypes,
     ValueGetter<Map<String, dynamic>?>? species,
     ValueGetter<Sprites?>? sprites,
-    ValueGetter<List<dynamic>?>? stats,
+    ValueGetter<List<Stats>?>? stats,
     ValueGetter<List<Types>?>? types,
     ValueGetter<int?>? weight,
   }) {
     return Pokemon(
       abilities: abilities != null ? abilities() : this.abilities,
       baseExperience: baseExperience != null ? baseExperience() : this.baseExperience,
+      description: description != null ? description() : this.description,
       forms: forms != null ? forms() : this.forms,
       gameIndices: gameIndices != null ? gameIndices() : this.gameIndices,
       height: height != null ? height() : this.height,
@@ -117,6 +122,7 @@ class Pokemon extends Equatable {
     return {
       'abilities': abilities,
       'baseExperience': baseExperience,
+      'description': description,
       'forms': forms,
       'gameIndices': gameIndices,
       'height': height,
@@ -140,11 +146,11 @@ class Pokemon extends Equatable {
 
   @override
   String toString() {
-    return 'Pokemon(abilities: $abilities, baseExperience: $baseExperience, forms: $forms, gameIndices: $gameIndices, height: $height, heldItems: $heldItems, id: $id, isDefault: $isDefault, locationAreaEncounters: $locationAreaEncounters, moves: $moves, name: $name, order: $order, pastTypes: $pastTypes, species: $species, sprites: $sprites, stats: $stats, types: $types, weight: $weight)';
+    return 'Pokemon(abilities: $abilities, baseExperience: $baseExperience, description: $description, forms: $forms, gameIndices: $gameIndices, height: $height, heldItems: $heldItems, id: $id, isDefault: $isDefault, locationAreaEncounters: $locationAreaEncounters, moves: $moves, name: $name, order: $order, pastTypes: $pastTypes, species: $species, sprites: $sprites, stats: $stats, types: $types, weight: $weight)';
   }
 
   @override
   List<Object?> get props {
-    return [abilities, baseExperience, forms, gameIndices, height, heldItems, id, isDefault, locationAreaEncounters, moves, name, order, pastTypes, species, sprites, stats, types, weight];
+    return [abilities, baseExperience, description, forms, gameIndices, height, heldItems, id, isDefault, locationAreaEncounters, moves, name, order, pastTypes, species, sprites, stats, types, weight];
   }
 }

@@ -9,10 +9,9 @@ class PokedexScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<PokedexBloc>(context).add(GetPokedex());
     return Scaffold(
       appBar: AppBar(
-        title: const Text(Strings.pokedexScreenTitle),
+        title: const Text(TitleStrings.pokedexScreenTitle),
       ),
       body: BlocBuilder<PokedexBloc, PokedexState>(
         // buildWhen: (context, state) {
