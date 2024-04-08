@@ -34,9 +34,7 @@ class PokemonAPI {
 
       final box = Hive.box<String>('pokemonDescription');
 
-      String pokemonDescripiton = '';
-
-      print(box.containsKey(name));
+      var pokemonDescripiton = '';
 
       if (!box.containsKey(name)) {
         final apiKey = dotenv.env['GENERATIVE_AI_KEY'];
