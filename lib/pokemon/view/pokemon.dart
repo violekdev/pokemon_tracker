@@ -211,13 +211,14 @@ class StatIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-      width: double.infinity,
+      width: screenSize.width * 0.8,
       child: Table(
         defaultVerticalAlignment: TableCellVerticalAlignment.middle,
         columnWidths: const {
-          0: FlexColumnWidth(4),
+          0: FlexColumnWidth(2),
           1: FlexColumnWidth(),
           2: FlexColumnWidth(7),
         },
