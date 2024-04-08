@@ -1,7 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:pokemon_tracker/pokemon/bloc/pokemon_bloc.dart';
@@ -33,17 +31,18 @@ class PokemonDetailsScreen extends StatelessWidget {
             );
           }
           return SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
+            child: SizedBox(
+              child: Stack(
+                alignment: Alignment.topCenter,
                 children: [
-                  Stack(
-                    alignment: Alignment.topCenter,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // mainAxisSize: MainAxisSize.min,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
+                      ListView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
                         children: [
                           Container(
                             margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -64,79 +63,85 @@ class PokemonDetailsScreen extends StatelessWidget {
                                   return TypeContainer(type: type);
                                 }).toList(),
                               ),
-                            ),
-                          Container(
-                            margin: EdgeInsets.only(top: screenSize.height * 0.2),
-                            padding: const EdgeInsets.only(left: 8, right: 8, top: 32),
-                            decoration: const BoxDecoration(
-                              color: Colors.black87,
-                              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                            ),
-                            child: (state is PokemonInitial || state is PokemonLoading)
-                                ? const Center(child: CircularProgressIndicator())
-                                : (state is PokemonLoaded)
-                                    ? DefaultTabController(
-                                        length: 3,
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            TabBar(
-                                              dividerHeight: 0,
-                                              // indicator: BoxDecoration(color: Theme.of(context).colorScheme.primary),
-                                              // labelColor: Theme.of(context).colorScheme.onPrimary,
-                                              tabs: [
-                                                PokemonDetailsTabWidget(
-                                                  label: 'Info',
-                                                  width: 60,
-                                                  key: Key('${state.name}TabViewInfo'),
-                                                ),
-                                                PokemonDetailsTabWidget(
-                                                  label: 'Evolution',
-                                                  width: 100,
-                                                  key: Key('${state.name}TabViewInfo'),
-                                                ),
-                                                PokemonDetailsTabWidget(
-                                                  label: 'Moves',
-                                                  width: 72,
-                                                  key: Key('${state.name}TabViewInfo'),
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: screenSize.height * 0.5,
-                                              child: TabBarView(
-                                                children: [
-                                                  Column(
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    children: [
-                                                      Container(
-                                                        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                                                        child: Text(
-                                                          state.pokemon.description!,
-                                                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white),
-                                                        ),
-                                                      ),
-                                                      StatIndicator(stats: state.pokemon.stats!),
-                                                    ],
-                                                  ),
-                                                  Container(),
-                                                  Container(),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    : Container(),
-                          ),
+                            )
+                          else
+                            SizedBox(height: screenSize.height * 0.05),
                         ],
                       ),
-                      PokemonAssetView(
-                        backImage: state.pokemonImageUrl,
-                        frontImage: state.pokemonImageUrl,
-                      ),
                     ],
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      height: screenSize.height * 0.65,
+                      // margin: EdgeInsets.only(top: screenSize.height * 0.175),
+                      padding: const EdgeInsets.only(left: 8, right: 8, top: 64),
+                      decoration: const BoxDecoration(
+                        color: Colors.black87,
+                        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                      ),
+                      child: (state is PokemonInitial || state is PokemonLoading)
+                          ? const Center(child: CircularProgressIndicator())
+                          : (state is PokemonLoaded)
+                              ? DefaultTabController(
+                                  length: 3,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      TabBar(
+                                        dividerHeight: 0,
+                                        // indicator: BoxDecoration(color: Theme.of(context).colorScheme.primary),
+                                        // labelColor: Theme.of(context).colorScheme.onPrimary,
+                                        tabs: [
+                                          PokemonDetailsTabWidget(
+                                            label: 'Info',
+                                            width: 60,
+                                            key: Key('${state.name}TabViewInfo'),
+                                          ),
+                                          PokemonDetailsTabWidget(
+                                            label: 'Evolution',
+                                            width: 100,
+                                            key: Key('${state.name}TabViewInfo'),
+                                          ),
+                                          PokemonDetailsTabWidget(
+                                            label: 'Moves',
+                                            width: 72,
+                                            key: Key('${state.name}TabViewInfo'),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: screenSize.height * 0.5,
+                                        child: TabBarView(
+                                          children: [
+                                            Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Container(
+                                                  margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                                  child: Text(
+                                                    state.pokemon.description!,
+                                                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white),
+                                                  ),
+                                                ),
+                                                StatIndicator(stats: state.pokemon.stats!),
+                                              ],
+                                            ),
+                                            Container(),
+                                            Container(),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : Container(),
+                    ),
+                  ),
+                  PokemonAssetView(
+                    backImage: state.pokemonImageUrl,
+                    frontImage: state.pokemonImageUrl,
                   ),
                 ],
               ),
