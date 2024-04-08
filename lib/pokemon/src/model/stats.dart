@@ -85,6 +85,25 @@ class Stat extends Equatable {
     );
   }
 
+  String statName(String statName) {
+    switch (statName) {
+      case 'HP':
+        return 'HP';
+      case 'ATTACK':
+        return 'ATK';
+      case 'DEFENSE':
+        return 'DEF';
+      case 'SPECIAL-ATTACK':
+        return 'SATK';
+      case 'SPECIAL-DEFENSE':
+        return 'SDEF';
+      case 'SPEED':
+        return 'SPD';
+      default:
+        return statName;
+    }
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'name': name,

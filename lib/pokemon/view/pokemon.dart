@@ -227,7 +227,7 @@ class StatIndicator extends StatelessWidget {
               children: [
                 TableCell(
                   child: Text(
-                    stat.stat.name!.toUpperCase(),
+                    stat.stat.statName(stat.stat.name!.toUpperCase()),
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white),
                   ),
                 ),
