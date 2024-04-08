@@ -6,8 +6,29 @@ import 'package:pokemon_tracker/pokemon/bloc/pokemon_bloc.dart';
 import 'package:pokemon_tracker/pokemon/src/model.dart';
 import 'package:pokemon_tracker/pokemon/widgets/pokemon_asset_view.dart';
 
-class PokemonDetailsScreen extends StatelessWidget {
+class PokemonDetailsScreen extends StatefulWidget {
   const PokemonDetailsScreen({super.key});
+
+  @override
+  State<PokemonDetailsScreen> createState() => _PokemonDetailsScreenState();
+}
+
+class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
+  ColorScheme dynamicColorScheme = ColorScheme.fromSeed(seedColor: Colors.white);
+  @override
+  void initState() {
+    super.initState();
+    setDynamicColorScheme();
+  }
+
+  Future<void> setDynamicColorScheme() async {
+    final blocState = BlocProvider.of<PokemonBloc>(context).state;
+    final imageProvider = CachedNetworkImageProvider(blocState.pokemonImageUrl, cacheKey: blocState.pokemonImageUrl);
+    final newColorScheme = await ColorScheme.fromImageProvider(provider: imageProvider);
+    setState(() {
+      dynamicColorScheme = newColorScheme;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +37,7 @@ class PokemonDetailsScreen extends StatelessWidget {
       extendBodyBehindAppBar: true,
       extendBody: true,
       appBar: AppBar(forceMaterialTransparency: true),
+      backgroundColor: dynamicColorScheme.primary,
       body: BlocBuilder<PokemonBloc, PokemonState>(
         buildWhen: (context, state) {
           return state is PokemonLoaded || state is PokemonLoading || state is PokemonInitial || state is PokemonError;
@@ -31,120 +53,118 @@ class PokemonDetailsScreen extends StatelessWidget {
             );
           }
           return SafeArea(
-            child: SizedBox(
-              child: Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    // mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ListView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        children: [
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(state.name[0].toUpperCase() + state.name.substring(1), style: Theme.of(context).textTheme.headlineLarge!.copyWith(color: dynamicColorScheme.onPrimary)),
+                              Text('#${state.id}', style: Theme.of(context).textTheme.headlineLarge!.copyWith(color: dynamicColorScheme.onPrimary)),
+                              // Text('#${colorSchemeFromImage.background}', style: Theme.of(context).textTheme.headlineLarge),
+                            ],
+                          ),
+                        ),
+                        if (state is PokemonLoaded)
                           Container(
                             margin: const EdgeInsets.symmetric(horizontal: 16),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(state.name[0].toUpperCase() + state.name.substring(1), style: Theme.of(context).textTheme.headlineLarge),
-                                Text('#${state.id}', style: Theme.of(context).textTheme.headlineLarge),
-                                // Text('#${colorSchemeFromImage.background}', style: Theme.of(context).textTheme.headlineLarge),
-                              ],
+                              children: state.pokemon.types!.map((type) {
+                                return TypeContainer(type: type);
+                              }).toList(),
                             ),
-                          ),
-                          if (state is PokemonLoaded)
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 16),
-                              child: Row(
-                                children: state.pokemon.types!.map((type) {
-                                  return TypeContainer(type: type);
-                                }).toList(),
-                              ),
-                            )
-                          else
-                            SizedBox(height: screenSize.height * 0.05),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      height: screenSize.height * 0.65,
-                      // margin: EdgeInsets.only(top: screenSize.height * 0.175),
-                      padding: const EdgeInsets.only(left: 8, right: 8, top: 64),
-                      decoration: const BoxDecoration(
-                        color: Colors.black87,
-                        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                      ),
-                      child: (state is PokemonInitial || state is PokemonLoading)
-                          ? const Center(child: CircularProgressIndicator())
-                          : (state is PokemonLoaded)
-                              ? DefaultTabController(
-                                  length: 3,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      TabBar(
-                                        dividerHeight: 0,
-                                        // indicator: BoxDecoration(color: Theme.of(context).colorScheme.primary),
-                                        // labelColor: Theme.of(context).colorScheme.onPrimary,
-                                        tabs: [
-                                          PokemonDetailsTabWidget(
-                                            label: 'Info',
-                                            width: 60,
-                                            key: Key('${state.name}TabViewInfo'),
+                          )
+                        else
+                          SizedBox(height: screenSize.height * 0.05),
+                      ],
+                    ),
+                  ],
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: screenSize.height * 0.65,
+                    // margin: EdgeInsets.only(top: screenSize.height * 0.175),
+                    padding: const EdgeInsets.only(left: 8, right: 8, top: 64),
+                    decoration: const BoxDecoration(
+                      color: Colors.black87,
+                      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                    ),
+                    child: (state is PokemonInitial || state is PokemonLoading)
+                        ? const Center(child: CircularProgressIndicator())
+                        : (state is PokemonLoaded)
+                            ? DefaultTabController(
+                                length: 3,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    TabBar(
+                                      dividerHeight: 0,
+                                      // indicator: BoxDecoration(color: Theme.of(context).colorScheme.primary),
+                                      // labelColor: Theme.of(context).colorScheme.onPrimary,
+                                      tabs: [
+                                        PokemonDetailsTabWidget(
+                                          label: 'Info',
+                                          width: 60,
+                                          key: Key('${state.name}TabViewInfo'),
+                                        ),
+                                        PokemonDetailsTabWidget(
+                                          label: 'Evolution',
+                                          width: 100,
+                                          key: Key('${state.name}TabViewInfo'),
+                                        ),
+                                        PokemonDetailsTabWidget(
+                                          label: 'Moves',
+                                          width: 72,
+                                          key: Key('${state.name}TabViewInfo'),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: screenSize.height * 0.5,
+                                      child: TabBarView(
+                                        children: [
+                                          Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Container(
+                                                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                                child: Text(
+                                                  state.pokemon.description!,
+                                                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white),
+                                                ),
+                                              ),
+                                              StatIndicator(stats: state.pokemon.stats!),
+                                            ],
                                           ),
-                                          PokemonDetailsTabWidget(
-                                            label: 'Evolution',
-                                            width: 100,
-                                            key: Key('${state.name}TabViewInfo'),
-                                          ),
-                                          PokemonDetailsTabWidget(
-                                            label: 'Moves',
-                                            width: 72,
-                                            key: Key('${state.name}TabViewInfo'),
-                                          ),
+                                          Container(),
+                                          Container(),
                                         ],
                                       ),
-                                      SizedBox(
-                                        height: screenSize.height * 0.5,
-                                        child: TabBarView(
-                                          children: [
-                                            Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Container(
-                                                  margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                                                  child: Text(
-                                                    state.pokemon.description!,
-                                                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white),
-                                                  ),
-                                                ),
-                                                StatIndicator(stats: state.pokemon.stats!),
-                                              ],
-                                            ),
-                                            Container(),
-                                            Container(),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              : Container(),
-                    ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : Container(),
                   ),
-                  PokemonAssetView(
-                    backImage: state.pokemonImageUrl,
-                    frontImage: state.pokemonImageUrl,
-                  ),
-                ],
-              ),
+                ),
+                PokemonAssetView(
+                  backImage: state.pokemonImageUrl,
+                  frontImage: state.pokemonImageUrl,
+                ),
+              ],
             ),
           );
         },
